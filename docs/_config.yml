@@ -19,6 +19,16 @@ plugins:
 author:
   name: "GGundBits"
   bio: "Cloud engineering guides and demos"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/ggund"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/gauravgundal/"
+    - label: "RSS"
+      icon: "fas fa-rss"
+      url: "/feed.xml"
 
 # Defaults
 defaults:

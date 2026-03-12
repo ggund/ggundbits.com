@@ -17,6 +17,13 @@ header:
 
 > **Demo only** — This is a proof-of-concept. Do not deploy to production without vetting security guardrails and understanding the unsupported JAR patch.
 
+## TL;DR
+
+- **Goal**: Run the ServiceNow MID Server on **AWS EKS Auto Mode** without static AWS keys or self‑managed EC2 instances.
+- **How**: Patch `mid.jar` so the MID Server can use **EKS Pod Identity** first, with instance profiles as a fallback.
+- **What you get**: Pod‑scoped, auto‑rotated AWS credentials, a three‑tier IAM role model, and a CDK app that deploys everything end‑to‑end.
+- **Who this is for**: ServiceNow / cloud platform engineers who own both AWS and ServiceNow and need a repeatable, supportable story for cloud discovery.
+
 ## The Problem
 
 ServiceNow MID Server discovers AWS resources by calling AWS APIs. It needs AWS credentials. The official MID Server only supports two methods: static IAM user keys and EC2 Instance Profile (IMDSv2). Neither works on EKS Auto Mode — there are no user-managed nodes for Instance Profiles, and static keys are a security anti-pattern.
