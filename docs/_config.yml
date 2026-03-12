@@ -3,6 +3,10 @@ description: Cloud engineering guides, demos, and deep dives
 url: "https://ggundbits.com"
 baseurl: ""
 
+# Analytics — free, no-cost (Cloudflare Web Analytics; no cookies, privacy-friendly)
+# Get your token: https://dash.cloudflare.com → Web Analytics → Add site → copy token
+cloudflare_analytics_token: "a0626baf41084a7299e467657ae44687"
+
 # Theme
 remote_theme: mmistakes/minimal-mistakes@4.26.2
 # Use a light, easy-to-read skin
