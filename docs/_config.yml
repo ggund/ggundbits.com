@@ -5,7 +5,8 @@ baseurl: ""
 
 # Theme
 remote_theme: mmistakes/minimal-mistakes@4.26.2
-minimal_mistakes_skin: "default"
+# Use a light, easy-to-read skin
+minimal_mistakes_skin: "air"
 
 # Plugins (GitHub Pages supported)
 plugins:
@@ -65,6 +66,10 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+
+# Explicitly include custom pages
+include:
+  - _pages
 
 # Include custom CSS
 head_scripts:

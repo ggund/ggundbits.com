@@ -3,8 +3,8 @@ layout: home
 title: "GGundBits"
 author_profile: true
 header:
-  overlay_color: "#2c3e50"
-  overlay_filter: "0.5"
+  overlay_color: "#f5f7fa"
+  overlay_filter: "0.0"
 excerpt: "Cloud engineering guides, demos, and deep dives — AWS, Kubernetes, IaC, and more."
 ---
 
