@@ -18,6 +18,7 @@ header:
 > **Demo only** — This is a proof-of-concept. Do not deploy to production without vetting security guardrails and understanding the unsupported JAR patch.
 
 ## TL;DR
+{: .no_toc }
 
 - **Goal**: Run the ServiceNow MID Server on **AWS EKS Auto Mode** without static AWS keys or self‑managed EC2 instances.
 - **How**: Patch `mid.jar` so the MID Server can use **EKS Pod Identity** first, with instance profiles as a fallback.
