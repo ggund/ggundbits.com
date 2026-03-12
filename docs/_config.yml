@@ -18,7 +18,17 @@ plugins:
 # Site author
 author:
   name: "GGundBits"
-  bio: "Cloud engineering guides and demos"
+  bio: "Enterprise cloud and MLOps solutions on AWS — landing zones, migrations, and DevOps automation."
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/ggund"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/gauravgundal/"
+    - label: "RSS"
+      icon: "fas fa-rss"
+      url: "/feed.xml"
 
 # Defaults
 defaults:
