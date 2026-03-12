@@ -1,0 +1,61 @@
+title: GGundBits
+description: Cloud engineering guides, demos, and deep dives
+url: "https://ggundbits.com"
+baseurl: ""
+
+# Theme
+remote_theme: mmistakes/minimal-mistakes@4.26.2
+minimal_mistakes_skin: "dark"
+
+# Plugins (GitHub Pages supported)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-include-cache
+  - jekyll-remote-theme
+
+# Site author
+author:
+  name: "GGundBits"
+  bio: "Cloud engineering guides and demos"
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      share: true
+      related: true
+      toc: true
+      toc_sticky: true
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+# Pagination
+paginate: 10
+paginate_path: /page:num/
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
+# Include custom CSS
+head_scripts:
+  - /assets/css/custom.css

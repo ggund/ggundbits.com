@@ -1,0 +1,114 @@
+/* ── Credential Models Animated Table ─────────────────────────── */
+
+.credential-table-wrapper {
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.credential-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.credential-table th {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #0f3460;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.credential-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #2a2a3e;
+  vertical-align: top;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.credential-table tr {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeSlideIn 0.5s ease forwards;
+}
+
+.credential-table tr:nth-child(1) { animation-delay: 0.1s; }
+.credential-table tr:nth-child(2) { animation-delay: 0.3s; }
+.credential-table tr:nth-child(3) { animation-delay: 0.5s; }
+.credential-table tr:nth-child(4) { animation-delay: 0.7s; }
+
+.credential-table tbody tr:hover td {
+  background: rgba(15, 52, 96, 0.3);
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Row highlights ──────────────────────────────────────────── */
+
+.row-static-keys td:first-child {
+  border-left: 4px solid #e74c3c;
+}
+
+.row-instance-profile td:first-child {
+  border-left: 4px solid #f39c12;
+}
+
+.row-irsa td:first-child {
+  border-left: 4px solid #3498db;
+}
+
+.row-pod-identity td:first-child {
+  border-left: 4px solid #2ecc71;
+}
+
+/* ── Recommended badge (Pod Identity row) ────────────────────── */
+
+.badge-recommended {
+  display: inline-block;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  animation: pulse 2s ease-in-out infinite;
+  margin-left: 6px;
+}
+
+.badge-maintenance {
+  display: inline-block;
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-left: 6px;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(46, 204, 113, 0); }
+}
+
+/* ── Security / trade-off icons ──────────────────────────────── */
+
+.trade-off-risk { color: #e74c3c; }
+.trade-off-warn { color: #f39c12; }
+.trade-off-info { color: #3498db; }
+.trade-off-good { color: #2ecc71; }

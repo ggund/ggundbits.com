@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+cdk.out/
+dist/
+*.js
+!jest.config.js
+*.d.ts
+*.log
+.env
+
+# Project repos live in their own git repos
+servicenow-mid-server-eks/
+infrastructure_v2/
