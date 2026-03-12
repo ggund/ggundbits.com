@@ -19,6 +19,7 @@ plugins:
 # Site author
 author:
   name: "GGundBits"
+  avatar: "/assets/images/bio-photo.jpg"
   bio: "Enterprise cloud and MLOps solutions on AWS — landing zones, migrations, and DevOps automation."
   links:
     - label: "GitHub"
