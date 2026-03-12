@@ -8,6 +8,10 @@ dist/
 *.log
 .env
 
+# Jekyll build output and cache (do not commit)
+docs/_site/
+docs/.jekyll-cache/
+
 # Project repos live in their own git repos
 servicenow-mid-server-eks/
 infrastructure_v2/

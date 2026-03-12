@@ -1,4 +1,69 @@
-/* ── Credential Models Animated Table ─────────────────────────── */
+/* ── Global tweaks for a Medium-like clean look ──────────────── */
+
+body {
+  background: #ffffff;
+  color: #111827;
+}
+
+.page,
+.page__inner-wrap,
+.page__content,
+.archive {
+  background: #ffffff;
+}
+
+.page__content {
+  font-size: 0.95rem; /* slightly smaller than default */
+  line-height: 1.7;
+}
+
+.page__content h1 {
+  font-size: 2rem;
+}
+
+.page__content h2 {
+  font-size: 1.5rem;
+}
+
+.page__content h3 {
+  font-size: 1.25rem;
+}
+
+.page__content p {
+  max-width: 46rem; /* ~736px for 60–75 chars */
+}
+
+.masthead,
+.site-title,
+.site-nav,
+.page__hero,
+.page__hero--overlay {
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.site-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.masthead__menu-item a {
+  font-size: 0.9rem;
+}
+
+/* Hide theme credit line in footer */
+.page__footer-copyright {
+  display: none;
+}
+
+.page__hero--overlay .page__title,
+.page__title,
+.page__lead {
+  text-shadow: none;
+  color: #111827;
+}
+
+/* ── Credential Models Table ─────────────────────────────────── */
 
 .credential-table-wrapper {
   overflow-x: auto;

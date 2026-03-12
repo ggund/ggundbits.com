@@ -34,4 +34,4 @@ If you’d like to connect, you can:
 - Follow the code on **GitHub**: [github.com/ggund](https://github.com/ggund)
 - Connect on **LinkedIn**: [linkedin.com/in/gauravgundal](https://www.linkedin.com/in/gauravgundal/)
 
-Future posts will cover more AWS identity patterns, multi‑account topologies, and practical reliability work — with an emphasis on demos that are safe to run in a personal or sandbox account.
+Future posts will cover more AWS identity patterns, multi‑account topologies, MLOps, and practical reliability work — with an emphasis on demos that are safe to run in a personal or sandbox account.
