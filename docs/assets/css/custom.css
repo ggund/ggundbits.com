@@ -14,12 +14,12 @@
 }
 
 .credential-table th {
-  background: #1a1a2e;
-  color: #e0e0e0;
+  background: #2c3e50;
+  color: #fff;
   padding: 12px 16px;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid #0f3460;
+  border-bottom: 2px solid #1a252f;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -27,7 +27,7 @@
 
 .credential-table td {
   padding: 12px 16px;
-  border-bottom: 1px solid #2a2a3e;
+  border-bottom: 1px solid #e0e0e0;
   vertical-align: top;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -44,7 +44,7 @@
 .credential-table tr:nth-child(4) { animation-delay: 0.7s; }
 
 .credential-table tbody tr:hover td {
-  background: rgba(15, 52, 96, 0.3);
+  background: rgba(44, 62, 80, 0.08);
 }
 
 @keyframes fadeSlideIn {
@@ -109,6 +109,146 @@
 /* ── Security / trade-off icons ──────────────────────────────── */
 
 .trade-off-risk { color: #e74c3c; }
-.trade-off-warn { color: #f39c12; }
-.trade-off-info { color: #3498db; }
-.trade-off-good { color: #2ecc71; }
+.trade-off-warn { color: #e67e22; }
+.trade-off-info { color: #2980b9; }
+.trade-off-good { color: #27ae60; }
+
+
+/* ── Animated Architecture Diagram ───────────────────────────── */
+
+.arch-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 2rem auto;
+  max-width: 400px;
+}
+
+.arch-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 32px;
+  border-radius: 12px;
+  min-width: 260px;
+  text-align: center;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: nodeAppear 0.5s ease forwards;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.arch-node:nth-child(1)  { animation-delay: 0.2s; }
+.arch-node:nth-child(3)  { animation-delay: 0.6s; }
+.arch-node:nth-child(5)  { animation-delay: 1.0s; }
+.arch-node:nth-child(7)  { animation-delay: 1.4s; }
+.arch-node:nth-child(9)  { animation-delay: 1.8s; }
+
+.arch-icon {
+  font-size: 1.8rem;
+  margin-bottom: 4px;
+}
+
+.arch-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.arch-sublabel {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* Node colors */
+.arch-pod {
+  background: linear-gradient(135deg, #2c3e50, #34495e);
+  color: #fff;
+}
+
+.arch-role1 {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: #fff;
+}
+
+.arch-role2 {
+  background: linear-gradient(135deg, #2980b9, #3498db);
+  color: #fff;
+}
+
+.arch-role3 {
+  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  color: #fff;
+}
+
+.arch-resources {
+  background: linear-gradient(135deg, #e67e22, #f39c12);
+  color: #fff;
+}
+
+/* Arrows */
+.arch-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 48px;
+  justify-content: center;
+  opacity: 0;
+  animation: arrowAppear 0.4s ease forwards;
+}
+
+.arch-arrow:nth-child(2)  { animation-delay: 0.4s; }
+.arch-arrow:nth-child(4)  { animation-delay: 0.8s; }
+.arch-arrow:nth-child(6)  { animation-delay: 1.2s; }
+.arch-arrow:nth-child(8)  { animation-delay: 1.6s; }
+
+.arch-arrow-line {
+  width: 2px;
+  height: 20px;
+  background: #7f8c8d;
+  position: relative;
+}
+
+.arch-arrow-line::after {
+  content: '▼';
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  color: #7f8c8d;
+}
+
+.arch-arrow-text {
+  font-size: 0.7rem;
+  color: #7f8c8d;
+  font-family: monospace;
+  margin-top: 2px;
+}
+
+@keyframes nodeAppear {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes arrowAppear {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .arch-node {
+    min-width: 200px;
+    padding: 12px 20px;
+  }
+  .credential-table {
+    font-size: 0.8rem;
+  }
+}

@@ -9,8 +9,8 @@ toc: true
 toc_sticky: true
 excerpt: "Run the ServiceNow MID Server in a container on EKS Auto Mode using a patched JAR for EKS Pod Identity - credential-less, pod-scoped, auto-rotated AWS credentials for cloud discovery."
 header:
-  overlay_color: "#1a1a2e"
-  overlay_filter: "0.6"
+  overlay_color: "#2c3e50"
+  overlay_filter: "0.5"
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
@@ -86,19 +86,51 @@ EKS Pod Identity solves this by injecting temporary, pod-scoped credentials. But
 
 ## Architecture
 
-```
-EKS Pod (MID Server)
-  ↓ EKS Pod Identity
-Pod Identity Role (servicenow-pod-identity-role)
-  ↓ sts:AssumeRole
-Management Role (servicenow-management-role)
-  ↓ sts:AssumeRole
-Discovery Role (servicenow-discovery-role)
-  ↓ Read-only discovery actions
-AWS Resources (EC2, ECS, etc.)
-```
-
 The three-tier IAM role architecture mirrors ServiceNow's Model 3 (Accessor → Management → Member) discovery pattern. In production, these roles would be in separate AWS accounts. For this demo, all three live in the same account.
+
+<div class="arch-diagram">
+  <div class="arch-node arch-pod">
+    <div class="arch-icon">&#9881;</div>
+    <div class="arch-label">EKS Pod</div>
+    <div class="arch-sublabel">MID Server</div>
+  </div>
+  <div class="arch-arrow">
+    <div class="arch-arrow-line"></div>
+    <div class="arch-arrow-text">EKS Pod Identity</div>
+  </div>
+  <div class="arch-node arch-role1">
+    <div class="arch-icon">&#128273;</div>
+    <div class="arch-label">Pod Identity Role</div>
+    <div class="arch-sublabel">Accessor</div>
+  </div>
+  <div class="arch-arrow">
+    <div class="arch-arrow-line"></div>
+    <div class="arch-arrow-text">sts:AssumeRole</div>
+  </div>
+  <div class="arch-node arch-role2">
+    <div class="arch-icon">&#128273;</div>
+    <div class="arch-label">Management Role</div>
+    <div class="arch-sublabel">Central Hub</div>
+  </div>
+  <div class="arch-arrow">
+    <div class="arch-arrow-line"></div>
+    <div class="arch-arrow-text">sts:AssumeRole</div>
+  </div>
+  <div class="arch-node arch-role3">
+    <div class="arch-icon">&#128273;</div>
+    <div class="arch-label">Discovery Role</div>
+    <div class="arch-sublabel">Per Account</div>
+  </div>
+  <div class="arch-arrow">
+    <div class="arch-arrow-line"></div>
+    <div class="arch-arrow-text">Read-only APIs</div>
+  </div>
+  <div class="arch-node arch-resources">
+    <div class="arch-icon">&#9729;</div>
+    <div class="arch-label">AWS Resources</div>
+    <div class="arch-sublabel">EC2, ECS, etc.</div>
+  </div>
+</div>
 
 ## What Gets Deployed
 
