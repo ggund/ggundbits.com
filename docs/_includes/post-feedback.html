@@ -1,0 +1,99 @@
+{% comment %}Shown on blog posts only. Set post_feedback_worker_url in _config.yml for aggregated counts.{% endcomment %}
+{% if page.collection == 'posts' and page.feedback != false %}
+<section class="post-feedback" id="post-feedback" aria-label="Article feedback">
+  <p class="post-feedback__prompt">Was this post helpful?</p>
+  <div class="post-feedback__actions">
+    <button type="button" class="post-feedback__btn post-feedback__btn--up" data-vote="up" aria-pressed="false" title="Helpful">
+      <span class="post-feedback__icon" aria-hidden="true">&#128077;</span>
+      <span class="post-feedback__label">Yes</span>
+      <span class="post-feedback__count" data-count="up" hidden>0</span>
+    </button>
+    <button type="button" class="post-feedback__btn post-feedback__btn--down" data-vote="down" aria-pressed="false" title="Not helpful">
+      <span class="post-feedback__icon" aria-hidden="true">&#128078;</span>
+      <span class="post-feedback__label">No</span>
+      <span class="post-feedback__count" data-count="down" hidden>0</span>
+    </button>
+  </div>
+  <p class="post-feedback__thanks" id="post-feedback-thanks" hidden>Thanks — that helps shape future posts.</p>
+  <p class="post-feedback__hint" id="post-feedback-hint" hidden aria-live="polite"></p>
+</section>
+<script>
+(function () {
+  var workerUrl = {{ site.post_feedback_worker_url | jsonify }};
+  var slug = {{ page.url | jsonify }};
+  var storageKey = 'post-feedback:' + slug;
+  var section = document.getElementById('post-feedback');
+  if (!section) return;
+  /* Place under article body (before share/related), not lost in site footer */
+  var inner = document.querySelector('.page__inner-wrap');
+  var share = document.querySelector('.page__share');
+  if (inner && share && share.parentNode === inner) {
+    inner.insertBefore(section, share);
+  } else if (inner) {
+    var rel = inner.querySelector('.page__related');
+    if (rel && rel.parentNode === inner) inner.insertBefore(section, rel);
+    else inner.appendChild(section);
+  }
+  var thanks = document.getElementById('post-feedback-thanks');
+  var hint = document.getElementById('post-feedback-hint');
+  var countsUp = section.querySelector('[data-count="up"]');
+  var countsDown = section.querySelector('[data-count="down"]');
+
+  function showCounts(up, down) {
+    if (typeof up === 'number' && workerUrl) {
+      countsUp.textContent = String(up);
+      countsDown.textContent = String(down);
+      countsUp.hidden = false;
+      countsDown.hidden = false;
+    }
+  }
+
+  if (workerUrl) {
+    fetch(workerUrl + '?slug=' + encodeURIComponent(slug), { mode: 'cors' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (j && typeof j.up === 'number') showCounts(j.up, j.down);
+      })
+      .catch(function () {});
+  }
+
+  var voted = null;
+  try { voted = localStorage.getItem(storageKey); } catch (e) {}
+  if (voted === 'up' || voted === 'down') {
+    section.querySelector('[data-vote="' + voted + '"]').setAttribute('aria-pressed', 'true');
+    section.querySelectorAll('.post-feedback__btn').forEach(function (b) { b.disabled = true; });
+    thanks.hidden = false;
+  }
+
+  section.querySelectorAll('.post-feedback__btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.disabled) return;
+      var vote = btn.getAttribute('data-vote');
+      try { localStorage.setItem(storageKey, vote); } catch (e) {}
+      section.querySelectorAll('.post-feedback__btn').forEach(function (b) {
+        b.disabled = true;
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      thanks.hidden = false;
+      if (workerUrl) {
+        fetch(workerUrl, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ slug: slug, vote: vote })
+        })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (j) {
+            if (j && typeof j.up === 'number') showCounts(j.up, j.down);
+          })
+          .catch(function () {
+            hint.textContent = 'Vote saved locally; totals update when the feedback service is reachable.';
+            hint.hidden = false;
+          });
+      }
+      /* No extra message when Worker URL unset — vote is still recorded locally */
+    });
+  });
+})();
+</script>
+{% endif %}

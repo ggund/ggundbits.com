@@ -2,7 +2,7 @@
 layout: single
 title: "About"
 permalink: /about/
-author_profile: true
+author_profile: false
 ---
 
 GGundBits is a collection of **hands‑on cloud engineering guides** — the kind of write‑ups I wish existed when you are on a deadline and need something that actually works.

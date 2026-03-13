@@ -1,3 +1,67 @@
+/* Post feedback (Yes / No) — footer on blog posts */
+.post-feedback {
+  margin: 2.5rem 0 1rem;
+  padding: 1.25rem 1.5rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-align: center;
+}
+.post-feedback__prompt {
+  margin: 0 0 0.75rem;
+  font-weight: 600;
+  color: #334155;
+  font-size: 1rem;
+}
+.post-feedback__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.post-feedback__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  cursor: pointer;
+  color: #1e293b;
+}
+.post-feedback__btn:hover:not(:disabled) {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+.post-feedback__btn:disabled {
+  opacity: 0.85;
+  cursor: default;
+}
+.post-feedback__btn--up[aria-pressed="true"] {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+}
+.post-feedback__btn--down[aria-pressed="true"] {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+.post-feedback__count {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-left: 0.25rem;
+}
+.post-feedback__thanks,
+.post-feedback__hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+.post-feedback__hint {
+  font-style: italic;
+}
+
 /* ── Global tweaks for a Medium-like clean look ──────────────── */
 
 body {
@@ -33,11 +97,10 @@ body {
   max-width: 46rem; /* ~736px for 60–75 chars */
 }
 
+/* Do not force .page__hero--overlay to white — it breaks dark-on-dark or light text on white */
 .masthead,
 .site-title,
-.site-nav,
-.page__hero,
-.page__hero--overlay {
+.site-nav {
   background: #ffffff !important;
   color: #111827 !important;
 }
@@ -56,13 +119,64 @@ body {
   display: none;
 }
 
-.page__hero--overlay .page__title,
-.page__title,
-.page__lead {
+/* Home light hero: tagline must be dark (theme uses faint/white on overlay) */
+.page__hero--overlay .page__title {
+  color: #0f172a !important;
+  text-shadow: none !important;
+}
+.page__hero--overlay .page__lead,
+.page__hero--overlay .page__lead p,
+.layout--home .page__hero--overlay .page__lead,
+.layout--home .page__hero--overlay .wrapper > p {
+  color: #334155 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  font-weight: 500;
+}
+/* Single posts: always dark title + excerpt (readable on light hero band) */
+.layout--single .page__hero--overlay .page__title,
+.layout--single .page__hero--overlay .page__meta,
+.layout--single .page__hero--overlay .page__lead {
+  color: #0f172a !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+}
+.layout--single .page__hero--overlay .page__lead {
+  color: #334155 !important;
+  font-weight: 500;
+}
+.layout--single .page__hero--overlay {
+  background-color: #f1f5f9 !important;
+  background-image: none !important;
+}
+.layout--single .page__hero--overlay a {
+  color: #1d4ed8 !important;
+}
+.page__title {
   text-shadow: none;
   color: #111827;
 }
 
+/*
+ * Full-width article when left author sidebar is off (author_profile: false).
+ * Theme still uses width: calc(100% - 200px) + float:right for that column → blank left gap.
+ */
+@media (min-width: 64em) {
+  .layout--single .page {
+    float: none !important;
+    width: 100% !important;
+    clear: both !important;
+    /* keep right gutter so body text doesn’t sit under sticky TOC */
+    padding-right: 200px !important;
+    padding-inline-end: 200px !important;
+  }
+}
+@media (min-width: 80em) {
+  .layout--single .page {
+    padding-right: 300px !important;
+    padding-inline-end: 300px !important;
+  }
+}
 /* ── Credential Models Table ─────────────────────────────────── */
 
 .credential-table-wrapper {
@@ -244,6 +358,20 @@ body {
   color: #6b7280;
   font-family: monospace;
   margin-top: 2px;
+}
+
+/* Mermaid (architecture sequence diagrams) */
+.mermaid-diagram-wrapper {
+  margin: 2rem 0;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.mermaid-diagram-wrapper .mermaid {
+  display: flex;
+  justify-content: center;
 }
 
 /* ── Responsive ──────────────────────────────────────────────── */

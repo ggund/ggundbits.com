@@ -3,16 +3,12 @@ description: Cloud engineering guides, demos, and deep dives
 url: "https://ggundbits.com"
 baseurl: ""
 
-# Analytics — free, no-cost (Cloudflare Web Analytics; no cookies, privacy-friendly)
-# Get your token: https://dash.cloudflare.com → Web Analytics → Add site → copy token
 cloudflare_analytics_token: "a0626baf41084a7299e467657ae44687"
+post_feedback_worker_url: ""
 
-# Theme
 remote_theme: mmistakes/minimal-mistakes@4.26.2
-# Use a light, easy-to-read skin
 minimal_mistakes_skin: "air"
 
-# Plugins (GitHub Pages supported)
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -20,7 +16,7 @@ plugins:
   - jekyll-include-cache
   - jekyll-remote-theme
   - jekyll-paginate
-# Site author
+
 author:
   name: "GGundBits"
   avatar: "/assets/images/bio-photo.jpg"
@@ -36,14 +32,13 @@ author:
       icon: "fas fa-rss"
       url: "/feed.xml"
 
-# Defaults
 defaults:
   - scope:
       path: ""
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       share: true
       related: true
@@ -54,28 +49,23 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true
+      author_profile: false
 
-# Pagination
 paginate: 10
 paginate_path: /page:num/
 
-# Markdown
 markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-# Exclude from build
 exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
 
-# Explicitly include custom pages
 include:
   - _pages
 
-# Include custom CSS
 head_scripts:
   - /assets/css/custom.css

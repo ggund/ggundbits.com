@@ -1,0 +1,8 @@
+# Copy to wrangler.toml and deploy from docs/workers/
+name = "ggundbits-post-feedback"
+main = "post-feedback-worker.js"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "FEEDBACK_KV"
+id = "YOUR_KV_NAMESPACE_ID"

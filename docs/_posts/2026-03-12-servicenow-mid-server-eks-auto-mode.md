@@ -9,8 +9,8 @@ toc: true
 toc_sticky: true
 excerpt: "Run the ServiceNow MID Server on EKS Auto Mode for AWS asset discovery, using EKS Pod Identity for credential-less, pod-scoped AWS credentials — no static keys, no self-managed EC2."
 header:
-  overlay_color: "#2c3e50"
-  overlay_filter: "0.5"
+  overlay_color: "#f1f5f9"
+  overlay_filter: "0.0"
 ---
 
 <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
@@ -139,6 +139,104 @@ The three-tier IAM role architecture mirrors ServiceNow's Model 3 (Accessor → 
     <div class="arch-sublabel">EC2, ECS, etc.</div>
   </div>
 </div>
+
+### Credential flow (sequence)
+
+**Accounts — demo vs prod:** In the demo, **Account A**, **B**, and **C** are a single AWS account. In production: **A** = shared/tools (where EKS and the Pod Identity role live), **B** = management account (hub role), **C** = workload accounts (discovery role and the resources you scan).
+
+{% raw %}
+<div class="mermaid-diagram-wrapper">
+<div class="mermaid">
+sequenceDiagram
+    participant Pod as MID pod Account A EKS
+    participant PodId as Pod Identity role Account A
+    participant Mgmt as Management role Account B
+    participant Disc as Discovery role Account C
+    participant AWS as AWS APIs Account C
+
+    Note over Pod,AWS: Demo A B C same account Prod A tools B mgmt C workloads
+
+    Note over Pod,PodId: Step 1 Pod Identity
+    Pod->>PodId: ServiceAccount to IAM role Account A
+    PodId-->>Pod: Short-lived credentials
+
+    Note over Pod,Mgmt: Step 2 Assume B
+    Pod->>Mgmt: sts:AssumeRole TagSession
+    Mgmt-->>Pod: Session as B
+
+    Note over Pod,Disc: Step 3 Assume C
+    Pod->>Disc: sts:AssumeRole TagSession
+    Disc-->>Pod: Session as C
+
+    Note over Pod,AWS: Step 4 Discover
+    Pod->>AWS: ec2 ecs Describe List
+    AWS-->>Pod: Inventory
+
+    Note over Pod: Step 5 CMDB
+    Pod->>Pod: To ServiceNow
+</div>
+</div>
+{% endraw %}
+
+### Detailed architecture
+
+The next figure is the same story as above, drawn as CDK-shaped boxes. Names and IAM live in the [CDK source](https://github.com/ggund/servicenow-mid-server-eks/tree/main/cdk) if you change anything.
+
+**Accounts — demo vs prod:** Same as the sequence diagram — demo uses **one** account for **A**, **B**, and **C**. In production: **A** = shared/tools, **B** = management, **C** = workload accounts (discovery roles and resources).
+
+> **About the MID password in this demo**  
+> CDK drops it into a Kubernetes Secret from deploy context so the stack comes up fast. For real use, put the password where you already keep secrets—Secrets Manager (often with External Secrets), or your CI/CD vault—and don’t commit it.
+
+{% raw %}
+<div class="mermaid-diagram-wrapper">
+<div class="mermaid">
+graph TB
+    subgraph SN["ServiceNow"]
+        SNOW["ServiceNow HTTPS to MID"]
+    end
+
+    subgraph ACCA["Account A"]
+        subgraph EKSMID["EKS MID Server"]
+            subgraph NS["Namespace servicenow"]
+                POD["StatefulSet mid-server"]
+                SA["ServiceAccount servicenow-mid-server"]
+                CM["ConfigMap mid-server-config"]
+            end
+            PODA["Pod Identity association"]
+        end
+        PODID["servicenow-pod-identity-role<br/>Trust pods.eks.amazonaws.com<br/>Assume Account B TagSession self"]
+    end
+
+    subgraph IAM_M["Account B"]
+        MGMT["servicenow-management-role<br/>Trust Account A Orgs read only<br/>Assume Account C TagSession"]
+    end
+
+    subgraph IAM_D["Account C"]
+        DISC["servicenow-discovery-role<br/>Trust Account B ec2 ecs read"]
+    end
+
+    subgraph WL["Account C workload resources"]
+        EC2["EC2"]
+        ECS["ECS"]
+    end
+
+    SNOW <-->|HTTPS| POD
+    POD --> SA
+    POD --> CM
+    SA --> PODA
+    PODA --> PODID
+    PODID -->|sts:AssumeRole| MGMT
+    MGMT -->|sts:AssumeRole| DISC
+    DISC -->|Describe/List| EC2
+    DISC -->|Describe/List| ECS
+
+    style POD fill:#e1f5ff
+    style PODID fill:#fff4e1
+    style MGMT fill:#ffe1e1
+    style DISC fill:#e1ffe1
+</div>
+</div>
+{% endraw %}
 
 ## What Gets Deployed
 
