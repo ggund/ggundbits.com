@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "ServiceNow MID Server on AWS EKS Auto Mode with Pod Identity for AWS Asset Discovery"
+title: "ServiceNow MID Server on EKS Auto Mode for AWS Discovery"
 date: 2026-03-12
 permalink: /servicenow-mid-server-eks/
 categories: [aws, servicenow, eks]
