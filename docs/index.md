@@ -18,8 +18,8 @@ Welcome to GGundBits — practical cloud engineering guides with working code, a
 
 ### Start with this guide
 
-- **ServiceNow MID Server on AWS EKS Auto Mode with Pod Identity**  
-  How to run the ServiceNow MID Server on EKS Auto Mode using Pod Identity, with a three‑tier IAM role model and a fully reproducible CDK stack.  
+- **ServiceNow MID Server on AWS EKS Auto Mode with Pod Identity for AWS Asset Discovery**  
+  Run the MID Server on EKS Auto Mode for AWS asset discovery using Pod Identity — three‑tier IAM roles and a fully reproducible CDK stack.  
   👉 [Read the guide](/servicenow-mid-server-eks/) · [View the code](https://github.com/ggund/servicenow-mid-server-eks)
 
 If you build something based on a guide here, share it — feedback and real‑world stories help shape the next posts.

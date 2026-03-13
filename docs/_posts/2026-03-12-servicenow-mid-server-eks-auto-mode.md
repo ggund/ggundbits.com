@@ -1,13 +1,13 @@
 ---
 layout: single
-title: "ServiceNow MID Server on AWS EKS Auto Mode with Pod Identity"
+title: "ServiceNow MID Server on AWS EKS Auto Mode with Pod Identity for AWS Asset Discovery"
 date: 2026-03-12
 permalink: /servicenow-mid-server-eks/
 categories: [aws, servicenow, eks]
 tags: [eks, pod-identity, mid-server, servicenow, aws, cdk, discovery]
 toc: true
 toc_sticky: true
-excerpt: "Run the ServiceNow MID Server in a container on EKS Auto Mode using a patched JAR for EKS Pod Identity - credential-less, pod-scoped, auto-rotated AWS credentials for cloud discovery."
+excerpt: "Run the ServiceNow MID Server on EKS Auto Mode for AWS asset discovery, using EKS Pod Identity for credential-less, pod-scoped AWS credentials — no static keys, no self-managed EC2."
 header:
   overlay_color: "#2c3e50"
   overlay_filter: "0.5"
@@ -17,17 +17,17 @@ header:
 
 > **Demo only** — This is a proof-of-concept. Do not deploy to production without vetting security guardrails and understanding the unsupported JAR patch.
 
-## TL;DR
+## Summary
 {: .no_toc }
 
-- **Goal**: Run the ServiceNow MID Server on **AWS EKS Auto Mode** without static AWS keys or self‑managed EC2 instances.
+- **Goal**: Enable **AWS asset discovery** from ServiceNow by running the MID Server on **AWS EKS Auto Mode** — without static AWS keys or self‑managed EC2 instances.
 - **How**: Patch `mid.jar` so the MID Server can use **EKS Pod Identity** first, with instance profiles as a fallback.
-- **What you get**: Pod‑scoped, auto‑rotated AWS credentials, a three‑tier IAM role model, and a CDK app that deploys everything end‑to‑end.
-- **Who this is for**: ServiceNow / cloud platform engineers who own both AWS and ServiceNow and need a repeatable, supportable story for cloud discovery.
+- **What you get**: Pod‑scoped, auto‑rotated AWS credentials for discovery, a three‑tier IAM role model, and a CDK app that deploys everything end‑to‑end.
+- **Who this is for**: ServiceNow / cloud platform engineers who own both AWS and ServiceNow and need a repeatable story for **AWS asset discovery**.
 
 ## The Problem
 
-ServiceNow MID Server discovers AWS resources by calling AWS APIs. It needs AWS credentials. The official MID Server only supports two methods: static IAM user keys and EC2 Instance Profile (IMDSv2). Neither works on EKS Auto Mode — there are no user-managed nodes for Instance Profiles, and static keys are a security anti-pattern.
+The ServiceNow MID Server is used for **AWS asset discovery** — it discovers AWS resources (EC2, ECS, etc.) by calling AWS APIs and syncs them into ServiceNow. It needs AWS credentials. The official MID Server only supports two methods: static IAM user keys and EC2 Instance Profile (IMDSv2). Neither works on EKS Auto Mode — there are no user-managed nodes for Instance Profiles, and static keys are a security anti-pattern.
 
 EKS Pod Identity solves this by injecting temporary, pod-scoped credentials. But the MID Server's credential resolver doesn't know about Pod Identity. So we patch `mid.jar` to check Pod Identity first, with Instance Profile as fallback.
 
